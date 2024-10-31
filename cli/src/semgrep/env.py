@@ -67,6 +67,7 @@ class Env:
         converter=url,
     )
     app_token: Optional[str] = field(default=EnvFactory("SEMGREP_APP_TOKEN"))
+    scm_run_id: Optional[str] = field(default=EnvFactory("SCM_RUN_ID"))
 
     version_check_url: str = field(
         default=EnvFactory(
