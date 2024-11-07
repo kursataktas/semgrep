@@ -58,7 +58,7 @@ jobs:
           name: manylinux-x86-wheel
       - run: unzip dist.zip
       - name: create venv
-        run: python -m venv env
+        run: /opt/python/cp38-cp38/bin/python3 -m venv env
       - name: install package
         run: env/bin/pip install dist/*.whl
       - name: test package
