@@ -84,7 +84,7 @@ jobs:
           name: windows-x86-wheel
       - run: tar xzvf dist.tgz
       - name: install package
-        run: pip3 install dist/*.whl
+        run: pip install dist/*.whl
       - name: test package
         run: semgrep --version
       - name: e2e semgrep-core test
