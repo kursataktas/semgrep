@@ -70,7 +70,7 @@ jobs:
   test-wheels-wsl:
     defaults:
       run:
-        shell: bash
+        shell: wsl-bash
     needs:
       - build-wheels
     runs-on: windows-latest
