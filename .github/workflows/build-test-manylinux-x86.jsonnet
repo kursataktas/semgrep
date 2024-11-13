@@ -160,8 +160,7 @@ local test_wheels_wsl_job = {
       shell: 'wsl-bash {0}',
       run: |||
         sudo apt update -y
-        sudo apt install make -y
-        sudo apt install python3 python3-pip -y
+        sudo apt install -y make python3 python3-pip
         sudo ln -s /usr/bin/python3 /usr/bin/python
       |||,
     },
