@@ -143,8 +143,7 @@ local test_wheels_venv_job = {
 };
 
 local test_wheels_wsl_job = {
-  'runs-on': 'ubuntu-latest',
-  container: 'quay.io/pypa/manylinux2014_x86_64',
+  'runs-on': 'windows-latest',
   needs: [
     'build-wheels',
   ],
@@ -158,31 +157,31 @@ local test_wheels_wsl_job = {
     },
     {
       name: 'Install Python',
-      shell: 'wsl-bash {0}'
+      shell: 'wsl-bash {0}',
       run: |||
         sudo apt update -y
         sudo apt install make -y
         sudo apt install python3 python3-pip -y
         sudo ln -s /usr/bin/python3 /usr/bin/python
-      |||
+      |||,
     },
     {
-      name: "install package"
-      shell: 'wsl-bash {0}'
+      name: "install package",
+      shell: 'wsl-bash {0}',
       run: "python3 -m pip install dist/*.whl"
     },
     {
       name: 'test package',
-      shell: 'wsl-bash {0}'
+      shell: 'wsl-bash {0}',
       run: |||
-        env/bin/semgrep --version
+        semgrep --version
       |||,
     },
     {
       name: 'e2e semgrep-core test',
-      shell: 'wsl-bash {0}'
+      shell: 'wsl-bash {0}',
       run: |||
-        echo '1 == 1' | env/bin/semgrep -l python -e '$X == $X' -
+        echo '1 == 1' | semgrep -l python -e '$X == $X' -
       |||,
     },
   ],
@@ -208,5 +207,6 @@ local test_wheels_wsl_job = {
     'build-wheels': build_wheels_job,
     'test-wheels': test_wheels_job,
     'test-wheels-venv': test_wheels_venv_job,
+    'test-wheels-wsl': test_wheels_wsl_job,
   },
 }
