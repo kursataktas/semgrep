@@ -270,7 +270,7 @@ install-deps-for-semgrep-core:
 # version conflicts.
 # OPAMSOLVERTIMEOUT default is 60 but seems not enough
 install-opam-deps:
-	OPAMSOLVERTIMEOUT=1200 opam install -y --deps-only $(REQUIRED_DEPS)
+	OPAMSOLVERTIMEOUT=1200 opam install -y --assume-depexts --deps-only $(REQUIRED_DEPS)
 
 # This will fail if semgrep.opam isn't up-to-date (in git),
 # and dune isn't installed yet. You can always install dune with
