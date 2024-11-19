@@ -51,6 +51,9 @@ jobs:
   build-test-osx-x86:
     secrets: inherit
     uses: ./.github/workflows/build-test-osx-x86.yml
+  build-test-windows-x86:
+    secrets: inherit
+    uses: ./.github/workflows/build-test-windows-x86.yml
   create-release:
     if: ${{ ! inputs.dry-run }}
     needs:
@@ -182,7 +185,7 @@ jobs:
       dry-run: ${{ inputs.dry-run || false }}
       repository-name: semgrep/semgrep
   upload-wheels:
-    name: Upload Wheels to PyPI
+    name: Upload Wheels
     needs:
       - wait-for-build-test
     runs-on: ubuntu-latest
@@ -219,6 +222,30 @@ jobs:
           password: ${{ secrets.PYPI_UPLOAD_TOKEN }}
           skip_existing: true
           user: __token__
+      - name: Download windows-x86-wheel
+        uses: actions/download-artifact@v3
+        with:
+          name: windows-x86-wheel
+          path: windows-x86-wheel
+      - run: |
+          tar xzvf windows-x86-wheel/dist.tgz "*.whl"
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: us-west-2
+          role-to-assume: arn:aws:iam::338683922796:role/codeartifact-semgrep-deploy-role
+          role-session-name: semgrep-release-codeartifact
+          role-duration-seconds: 900
+      - name: Login to CodeArtifact
+        run: |
+          echo CODEARTIFACT_AUTH_TOKEN=$(aws codeartifact get-authorization-token --domain=r2c --domain-owner=338683922796 --query=authorizationToken --output=text) >> $GITHUB_ENV
+      - name: Publish to CodeArtifact
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ env.CODEARTIFACT_AUTH_TOKEN }}
+          user: aws
+          repository-url: https://r2c-338683922796.d.codeartifact.us-west-2.amazonaws.com/pypi/pypi/
+
   wait-for-build-test:
     name: Wait for Build/Test All Platforms
     needs:
