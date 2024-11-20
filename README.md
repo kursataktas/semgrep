@@ -39,6 +39,9 @@
   <a href="https://twitter.com/intent/follow?screen_name=semgrep">
     <img src="https://img.shields.io/twitter/follow/semgrep?label=Follow%20semgrep&style=social&color=blue" alt="Follow @semgrep on Twitter" />
   </a>
+  <a href="https://gurubase.io/g/semgrep">
+    <img src="https://img.shields.io/badge/Gurubase-Ask%20Semgrep%20Guru-006BFF?style=flat-square" alt="Ask Semgrep Guru" />
+  </a>
 </p>
 </br>
 
